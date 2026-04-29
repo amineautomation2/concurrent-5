@@ -14,8 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #chunk: [0, 1, 2, 3, 4] 
-        chunk: [0] 
+        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
+        #chunk: [0] 
     
     steps:
       - name: Checkout Code
@@ -29,11 +29,11 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-      - name: Cleanup CSV
-        run: rm -rf csv/*_url.csv
+      #- name: Cleanup CSV
+      #  run: rm -rf csv/*_url.csv
       
       - name: Scrape URLs Chunk
-        run: python main.py --id ${{ matrix.chunk }} --url --max 5
+        run: python main.py --id ${{ matrix.chunk }} --url --max 10
 
       - name: Upload MF Partial Data
         uses: actions/upload-artifact@v6
@@ -76,7 +76,7 @@ jobs:
       - name: Upload Spreadsheet
         uses: actions/upload-artifact@v6
         with:
-          name: ajbell-mf
+          name: ${{env.PROJECT_NAME}}
           path: spreadsheet
           if-no-files-found: error
 
