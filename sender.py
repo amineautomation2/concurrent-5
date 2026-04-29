@@ -4,6 +4,7 @@ from email.message import EmailMessage
 from utils import get_xlsx_filepath
 from datetime import datetime
 
+
 def get_current_quarter(date_obj) -> str:
     return f"Q{(date_obj.month - 1) // 3 + 1}"
 
@@ -14,15 +15,16 @@ def email_title(title: str) -> str:
 
 # Configuration
 
+
 # Get the secret from environment variables
 EMAIL_FROM = os.environ.get('EMAIL_USERNAME')
 EMAIL_TO = os.environ.get('EMAIL_DEV')
 PASSWORD = os.environ.get('EMAIL_PASSWORD')
-filename = "ajbell.xlsx"
+filename = "charles_stanley.xlsx"
 FILE = get_xlsx_filepath(filename)
 # Create Message
 msg = EmailMessage()
-msg['Subject'] = email_title("AJBell")
+msg['Subject'] = email_title("Charles Stanley")
 msg['From'] = f"Amine Upwork <{EMAIL_FROM}>"
 msg['To'] = EMAIL_TO
 msg.set_content("Please see attached Spreadsheet.")

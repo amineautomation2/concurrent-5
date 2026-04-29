@@ -15,13 +15,10 @@ def url_runner(id_worker, max_workers):
     pages_per_worker = pages[id_worker::max_workers]
     worker_data = []
     csv_out = f"charles_stanley_{id_worker}_url.csv"
-    i = 0
     for page in pages_per_worker:
         data = get_page_urls(driver, f"{base}&Page={page}")
         worker_data.extend(data)
-        i += 1
         delay(2, 3)
-        break
     write_csv_by_id(csv_out, worker_data, ["name", "isin", "url"])
 
     driver.quit()
