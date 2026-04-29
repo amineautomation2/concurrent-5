@@ -7,6 +7,26 @@ import openpyxl
 from utils import save_xlsx
 
 
+def get_xlsx_data_empty(filename, sheet_name) -> list[dict]:
+    wb = openpyxl.load_workbook(filename)
+    ws = wb[sheet_name]
+    data = []
+    row_start = 2
+    for row in range(row_start, ws.max_row + 1):
+        if ws.cell(row, 1).value is None:
+            continue
+        if ws.cell(row, 4).value != "-":
+            continue
+        c1 = ws.cell(row, 1).value
+        c2 = ws.cell(row, 2).value
+        c3 = ws.cell(row, 3).value
+        c4 = ws.cell(row, 4).value
+        f = dict(name=c1, isin=c2, url=c3, keyword=c4)
+        data.append(f)
+    wb.close()
+    return data
+
+
 def get_xlsx_data(filename, sheet_name) -> list[dict]:
     wb = openpyxl.load_workbook(filename)
     ws = wb[sheet_name]
