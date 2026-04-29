@@ -35,6 +35,7 @@ def keyword_runner(id_worker, max_worker):
     )
     print("length worker data =", len(data_per_worker))
     driver = setup_driver(True)
+    driver.capabilities["pageLoadStrategy"] = "eager"
     print("[#] Keywords [#]")
     keyword_per_worker = get_keyword(driver, data_per_worker)
     csv_out = f"charles_stanley_{id_worker}_keyword.csv"
