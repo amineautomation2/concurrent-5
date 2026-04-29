@@ -70,7 +70,7 @@ jobs:
           merge-multiple: true
 
       - name: Merge and Commit
-        run: python main.py --merge
+        run: python main.py --merge --keyword
 
       - name: Upload Spreadsheet
         uses: actions/upload-artifact@v6
