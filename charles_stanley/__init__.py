@@ -34,7 +34,7 @@ def keyword_runner(id_worker, max_worker):
     )
     driver = setup_driver(True)
     print("[#] Keywords [#]")
-    keyword_per_worker = get_keyword(driver, data_per_worker[:2])
+    keyword_per_worker = get_keyword(driver, data_per_worker)
     csv_out = f"charles_stanley_{id_worker}_keyword.csv"
 
     fields = ["name", "isin", "url", "keyword"]

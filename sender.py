@@ -21,6 +21,7 @@ EMAIL_FROM = os.environ.get('EMAIL_USERNAME')
 EMAIL_TO = os.environ.get('EMAIL_DEV')
 PASSWORD = os.environ.get('EMAIL_PASSWORD')
 filename = "charles_stanley.xlsx"
+print(EMAIL_FROM, EMAIL_TO, PASSWORD)
 FILE = get_xlsx_filepath(filename)
 # Create Message
 msg = EmailMessage()
