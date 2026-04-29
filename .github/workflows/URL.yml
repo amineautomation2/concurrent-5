@@ -29,8 +29,8 @@ jobs:
       - name: Install Dependencies
         run: pip install -r requirements.txt
 
-      #- name: Cleanup CSV
-      #  run: rm -rf csv/*_url.csv
+      - name: Cleanup CSV
+        run: rm -rf csv/*_url.csv
       
       - name: Scrape URLs Chunk
         run: python main.py --id ${{ matrix.chunk }} --url --max 10
