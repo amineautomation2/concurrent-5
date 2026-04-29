@@ -19,5 +19,5 @@ def get_keyword(driver: WebDriver, data: list[dict]) -> list[dict]:
         keyword = find_element_or_none(wait, keyword_xpath_p)
         if keyword:
             fund.update(dict(keyword=keyword.text.strip()))
-        delay(1, 3)
+        delay(3, 5)
     return data
