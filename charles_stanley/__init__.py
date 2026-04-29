@@ -21,6 +21,7 @@ def url_runner(id_worker, max_workers):
         worker_data.extend(data)
         i += 1
         delay(2, 3)
+        break
     write_csv_by_id(csv_out, worker_data, ["name", "isin", "url"])
 
     driver.quit()
