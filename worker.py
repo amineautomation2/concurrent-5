@@ -15,12 +15,10 @@ def get_xlsx_data(filename, sheet_name) -> list[dict]:
     for row in range(row_start, ws.max_row + 1):
         if ws.cell(row, 1).value is None:
             continue
-        if ws.cell(row, 4).value:
-            continue
         c1 = ws.cell(row, 1).value
         c2 = ws.cell(row, 2).value
         c3 = ws.cell(row, 3).value
-        f = dict(name=c1, isin=c2, url=c3, index=row, sheet=sheet_name)
+        f = dict(name=c1, isin=c2, url=c3)
         data.append(f)
     wb.close()
     return data
@@ -70,17 +68,17 @@ def process_data(
     return fn(data)
 
 
-def merge_csv_to_xlsx(xlsx_out: str, fields: list[str], sheet: str):
+def merge_csv_to_xlsx(xlsx_out: str, fields: list[str], sheet: str, pattern: str):
     # xlsx_in = os.path.join(os.getcwd(), "spreadsheet", "hl.xlsx")
     combined_data = []
     csv_dir = os.path.join(os.getcwd(), "csv")
     for filename in os.listdir(csv_dir):
-        if filename.endswith("url.csv"):
+        if filename.endswith(pattern):
             file_path = os.path.join(csv_dir, filename)
             data = read_csv(file_path)
             if data:
                 combined_data.extend(data)
-    sorted_data = sorted(combined_data, key=lambda x: int(x["name"]))
+    sorted_data = sorted(combined_data, key=lambda x: x["name"])
     # write_csv(output_file, sorted_data, ["index", "name", "isin", "url"])
     # print(combined_data)
     save_xlsx(xlsx_out, sorted_data, fields, sheet)

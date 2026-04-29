@@ -5,7 +5,8 @@ on:
   workflow_dispatch:
 
 env:
-  ARTIFACT_NAME: results-mf-csv
+  ARTIFACT_NAME: results-keywords-csv
+  PROJECT_NAME: charles_stanley
 
 jobs:
   worker:
@@ -13,7 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        chunk: [0, 1, 2, 3, 4] 
+        #chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
+        chunk: [0] 
     
     steps:
       - name: Checkout Code
@@ -28,16 +30,16 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Cleanup CSV
-        run: rm -rf csv/*_mf.csv
+        run: rm -rf csv/*_keyword.csv
       
-      - name: Run Scraper Chunk
-        run: python main.py --id ${{ matrix.chunk }} --sheet MF
+      - name: Scrape URLs Chunk
+        run: python main.py --id ${{ matrix.chunk }} --max 10 --keyword
 
       - name: Upload MF Partial Data
         uses: actions/upload-artifact@v6
         with:
           name: ${{env.ARTIFACT_NAME}}-${{ matrix.chunk }}
-          path: csv/ajbell_${{ matrix.chunk }}_mf.csv
+          path: csv/${{env.PROJECT_NAME}}_${{ matrix.chunk }}_keyword.csv
           if-no-files-found: error
 
   merge-results:
@@ -69,12 +71,12 @@ jobs:
           merge-multiple: true
 
       - name: Merge and Commit
-        run: python main.py --sheet MF
+        run: python main.py --merge
 
       - name: Upload Spreadsheet
         uses: actions/upload-artifact@v6
         with:
-          name: ajbell-mf
+          name: ${{env.PROJECT_NAME}}
           path: spreadsheet
           if-no-files-found: error
 
