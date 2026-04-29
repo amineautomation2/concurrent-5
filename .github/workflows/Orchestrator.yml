@@ -8,27 +8,27 @@ env:
   IDLE_TIME: 30
 
 jobs:
-  run-urls-workflow:
-    uses: ./.github/workflows/URL.yml
-
-  wait-after-urls:
-    needs: run-urls-workflow
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - run: sleep ${{ env.IDLE_TIME }}
-
+#  run-urls-workflow:
+#    uses: ./.github/workflows/URL.yml
+#
+#  wait-after-urls:
+#    needs: run-urls-workflow
+#    if: always()
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: sleep ${{ env.IDLE_TIME }}
+#
   run-keyword-workflow:
-    needs: wait-after-urls
+    #needs: wait-after-urls
     uses: ./.github/workflows/Keyword.yml
   
-  wait-after-keyword:
-    needs: run-keyword-workflow
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - run: sleep ${{ env.IDLE_TIME }}
-
-  run-email-workflow:
-    needs: wait-after-keyword
-    uses: ./.github/workflows/Email.yml
+#  wait-after-keyword:
+#    needs: run-keyword-workflow
+#    if: always()
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: sleep ${{ env.IDLE_TIME }}
+#
+#  run-email-workflow:
+#    needs: wait-after-keyword
+#    uses: ./.github/workflows/Email.yml

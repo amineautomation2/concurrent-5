@@ -27,11 +27,13 @@ def url_runner(id_worker, max_workers):
 def keyword_runner(id_worker, max_worker):
     xlsx = get_xlsx_filepath("charles_stanley.xlsx")
     data = get_xlsx_data(xlsx, "Funds")
+    print("length data =", len(data))
     data_per_worker = get_data_by_worker_id(
         id=id_worker,
         max_worker=max_worker,
         data=data,
     )
+    print("length worker data =", len(data_per_worker))
     driver = setup_driver(True)
     print("[#] Keywords [#]")
     keyword_per_worker = get_keyword(driver, data_per_worker)
