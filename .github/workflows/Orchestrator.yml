@@ -3,32 +3,34 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "38 10 1 */3 *"
+    - cron: "38 13 3 5 *"
 
 env:
-  IDLE_TIME: 30
+  IDLE_TIME: 60
 
 jobs:
-#  run-urls-workflow:
-#    uses: ./.github/workflows/URL.yml
-#
-#  wait-after-urls:
-#    needs: run-urls-workflow
-#    if: always()
-#    runs-on: ubuntu-latest
-#    steps:
-#      - run: sleep ${{ env.IDLE_TIME }}
-#
+  run-urls-workflow:
+    uses: ./.github/workflows/URL.yml
+
+  wait-after-urls:
+    needs: run-urls-workflow
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep ${{ env.IDLE_TIME }}
+
   run-keyword-workflow:
-    #needs: wait-after-urls
-    uses: ./.github/workflows/Keyword.yml
-  
-#  wait-after-keyword:
-#    needs: run-keyword-workflow
-#    if: always()
-#    runs-on: ubuntu-latest
-#    steps:
-#      - run: sleep ${{ env.IDLE_TIME }}
-#
-#  run-email-workflow:
-#    needs: wait-after-keyword
-#    uses: ./.github/workflows/Email.yml
+   needs: wait-after-urls
+   uses: ./.github/workflows/Keyword.yml
+ 
+  wait-after-keyword:
+    needs: run-keyword-workflow
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep ${{ env.IDLE_TIME }}
+
+  run-email-workflow:
+    needs: wait-after-keyword
+    uses: ./.github/workflows/Email.yml
+    secrets: inherit
