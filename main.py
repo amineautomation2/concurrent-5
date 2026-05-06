@@ -51,11 +51,11 @@ def main():
 
 if __name__ == "__main__":
     start = time.perf_counter()
-    # main()
-    url = "https://documents.financialexpress.net/Literature/45AE0D08E3C2A5D765EF67ACEF713D79/240774542.pdf"
-    url = "https://documents.financialexpress.net/Literature/01B2959ACA54A3405D07EA6E9A176577/240776855.pdf"
-    data = isin_from_pdf(url)
+    main()
+    # url = "https://documents.financialexpress.net/Literature/45AE0D08E3C2A5D765EF67ACEF713D79/240774542.pdf"
+    # url = "https://documents.financialexpress.net/Literature/01B2959ACA54A3405D07EA6E9A176577/240776855.pdf"
+    # data = isin_from_pdf(url)
 
-    print(data)
+    # print(data)
     elapsed = time.perf_counter() - start
     print(f"Execution time: {elapsed:.2f} seconds.")
