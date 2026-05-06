@@ -36,7 +36,7 @@ def get_page_urls(driver: WebDriver, url: str, sheet: str) -> list[dict]:
             fund_url = url_elm
             if fund_url:
                 isin = None
-                if sheet == "Funds":
+                if sheet == "MF":
                     isin = get_isin(fund_url)
                 fund = dict(name=name.strip(), url=fund_url, isin=isin)
                 fund_data_per_page.append(fund)
