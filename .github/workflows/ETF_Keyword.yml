@@ -34,7 +34,7 @@ jobs:
         run: rm -rf csv/*_${{env.SHEET_NAME}}_keyword.csv
       
       - name: Scrape URLs Chunk
-        run: python main.py --id ${{ matrix.chunk }} --max 20 --keyword --sheet ${{env.SHEET_NAME}}
+        run: python main.py --id ${{ matrix.chunk }} --max 20 --keyword --sheet ${{ env.SHEET_NAME }}
 
       - name: Upload MF Partial Data
         uses: actions/upload-artifact@v6
