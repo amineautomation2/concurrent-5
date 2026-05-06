@@ -6,7 +6,7 @@ from worker import get_data_by_worker_id, get_xlsx_data, write_csv_by_id
 
 
 def url_mf(id_worker, max_workers):
-    driver = setup_driver(False)
+    driver = setup_driver(True)
     print("[#]       Charles Stanley        [#]")
     base = "https://www.charles-stanley-direct.co.uk/InvestmentSearch/Search?SearchType=KeywordSearch&Category=Funds&SortColumn=Name&SortDirection=Asc&Pagesize=50"
     url = f"{base}&Page=1"
