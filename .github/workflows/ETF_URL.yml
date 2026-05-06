@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  ARTIFACT_NAME: results-etf-urls-csv
+  ARTIFACT_NAME: results-ETF-urls-csv
   PROJECT_NAME: charles_stanley
   SHEET_NAME: ETF
 

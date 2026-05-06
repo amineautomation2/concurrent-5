@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  ARTIFACT_NAME: results-mf-keywords-csv
+  ARTIFACT_NAME: results-MF-keywords-csv
   PROJECT_NAME: charles_stanley
   SHEET_NAME: MF
 

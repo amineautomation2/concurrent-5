@@ -54,7 +54,7 @@ if __name__ == "__main__":
     main()
     # driver = setup_driver(True)
     # data = get_page_data(driver, [dict(
-    #    name="abc", url="https://www.charles-stanley-direct.co.uk/ViewInvestment?InvestmentId=%2FNwcPXPmiWA%3D")])
+    #    name="abc", url="https://www.charles-stanley-direct.co.uk/ViewFund?InvestmentId=G9%2BpUE7%2BaEg%3D&Isin=GB00B2PB2C75&PreviousSearchResults=%2FInvestmentSearch%2FSearch%3Fsortdirection%3DASC%26SearchType%3DKeywordSearch%26Category%3DFunds%26SortColumn%3DName%26Pagesize%3D20%26page%3D1")])
     # print(data)
     # driver.quit()
     elapsed = time.perf_counter() - start

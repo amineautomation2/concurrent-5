@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  ARTIFACT_NAME: results-etf-urls-csv
+  ARTIFACT_NAME: results-MF-urls-csv
   PROJECT_NAME: charles_stanley
   SHEET_NAME: MF
 
@@ -33,11 +33,6 @@ jobs:
 
       - name: Cleanup CSV
         run: rm -rf csv/*_${{ env.SHEET_NAME }}_url.csv
-      
-      - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v7
-        with:
-          commit_message: "Clean CSV"
       
       - name: Scrape URLs Chunk
         run: python main.py --id ${{ matrix.chunk }} --url --max 20 --sheet ${{env.SHEET_NAME}}
