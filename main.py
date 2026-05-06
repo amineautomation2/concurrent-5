@@ -6,7 +6,7 @@ from charles_stanley.etf import etf_keyword_runner, get_page_data
 from charles_stanley.keyword import get_keyword
 from charles_stanley.url import get_page_urls
 from charles_stanley.total import get_total_funds
-from utils import create_spreadsheet, delay, get_xlsx_filepath, setup_driver
+from utils import create_spreadsheet, delay, get_xlsx_filepath, isin_from_pdf, setup_driver
 from worker import (
     get_xlsx_data_empty,
     merge_csv_to_xlsx,
@@ -51,11 +51,11 @@ def main():
 
 if __name__ == "__main__":
     start = time.perf_counter()
-    main()
-    # driver = setup_driver(True)
-    # data = get_page_data(driver, [dict(
-    #    name="abc", url="https://www.charles-stanley-direct.co.uk/ViewFund?InvestmentId=G9%2BpUE7%2BaEg%3D&Isin=GB00B2PB2C75&PreviousSearchResults=%2FInvestmentSearch%2FSearch%3Fsortdirection%3DASC%26SearchType%3DKeywordSearch%26Category%3DFunds%26SortColumn%3DName%26Pagesize%3D20%26page%3D1")])
-    # print(data)
-    # driver.quit()
+    # main()
+    url = "https://documents.financialexpress.net/Literature/45AE0D08E3C2A5D765EF67ACEF713D79/240774542.pdf"
+    url = "https://documents.financialexpress.net/Literature/01B2959ACA54A3405D07EA6E9A176577/240776855.pdf"
+    data = isin_from_pdf(url)
+
+    print(data)
     elapsed = time.perf_counter() - start
     print(f"Execution time: {elapsed:.2f} seconds.")

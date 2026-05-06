@@ -281,6 +281,8 @@ def isin_from_text(text: str) -> str:
     isin_pattern = r"[A-Z]{2}[A-Z0-9]{9}[0-9]"
     isin = findall(isin_pattern, text)
     if len(isin) > 0:
+        if len(isin) == 2:
+            return isin[1]
         return isin[0]
     return ""
 
