@@ -50,7 +50,6 @@ def url_etf(id_worker, max_workers):
         data = get_page_urls(driver, f"{base}&Page={page}", "ETF")
         worker_data.extend(data)
         delay(2, 3)
-        break
     write_csv_by_id(csv_out, worker_data, ["name", "isin", "url"])
     driver.quit()
 
@@ -67,7 +66,7 @@ def etf_keyword_runner(id_worker, max_worker):
     driver.capabilities["pageLoadStrategy"] = "eager"
     print("[#] ETF ISIN & Keywords [#]")
 
-    page_data_per_worker = get_page_data(driver, data_per_worker[:1])
+    page_data_per_worker = get_page_data(driver, data_per_worker)
 
     csv_out = f"charles_stanley_{id_worker}_ETF_keyword.csv"
 

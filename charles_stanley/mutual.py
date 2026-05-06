@@ -20,7 +20,6 @@ def url_mf(id_worker, max_workers):
         data = get_page_urls(driver, f"{base}&Page={page}", "MF")
         worker_data.extend(data)
         delay(2, 3)
-        break
     print(worker_data)
     write_csv_by_id(csv_out, worker_data, ["name", "isin", "url"])
 
