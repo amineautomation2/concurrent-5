@@ -1,3 +1,7 @@
+from pypdf import PdfReader
+import io
+from re import findall
+from re import compile
 from random import uniform
 from time import sleep
 import time
@@ -78,7 +82,7 @@ def setup_driver(headless: bool = False, pref: dict = {}) -> WebDriver:
 
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("start-maximized")
+    options.add_argument("--start-maximized")
     options.add_argument("--window-size=1920,1080")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -263,3 +267,38 @@ def parse_ajbell_data(data: list[dict], is_mf: bool) -> list[dict]:
                 url = f'{base}{exchange_code}:{symbol}'
         funds.append(dict(name=name, isin=isin, url=url))
     return funds
+
+
+def get_isin(s: str) -> str:
+    isin_re = compile(r'[A-Z]{2}[A-Z0-9]{9}[0-9]{1}')
+    found = isin_re.findall(s)
+    if len(found) > 0:
+        return found[0]
+    return ""
+
+
+def isin_from_text(text: str) -> str:
+    isin_pattern = r"[A-Z]{2}[A-Z0-9]{9}[0-9]"
+    isin = findall(isin_pattern, text)
+    if len(isin) > 0:
+        return isin[0]
+    return ""
+
+
+def isin_from_pdf(url: str) -> str:
+    if len(url) == 0:
+        return ""
+    response = fetch_with_backoff(url)
+    if response and len(response.content) > 0:
+        try:
+            pdf_bytes = io.BytesIO(response.content)
+            reader = PdfReader(pdf_bytes)
+            text = ""
+            for page in reader.pages:
+                text += page.extract_text() or ""
+        except Exception as e:
+            print(f"[{url}]isin_from_pdf: ", e)
+            return ""
+
+        return isin_from_text(text)
+    return ""

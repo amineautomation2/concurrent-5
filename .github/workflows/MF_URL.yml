@@ -1,12 +1,13 @@
-name: Keywords
+name: MF URLs
 
 on:
   workflow_call:
   workflow_dispatch:
 
 env:
-  ARTIFACT_NAME: results-keywords-csv
+  ARTIFACT_NAME: results-etf-urls-csv
   PROJECT_NAME: charles_stanley
+  SHEET_NAME: MF
 
 jobs:
   worker:
@@ -14,7 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]
+        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+
         #chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
     
     steps:
@@ -30,16 +32,16 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Cleanup CSV
-        run: rm -rf csv/*_keyword.csv
+        run: rm -rf csv/*_${{ env.SHEET_NAME }}_url.csv
       
       - name: Scrape URLs Chunk
-        run: python main.py --id ${{ matrix.chunk }} --max 50 --keyword
+        run: python main.py --id ${{ matrix.chunk }} --url --max 20 --sheet $${{env.SHEET_NAME}}
 
       - name: Upload MF Partial Data
         uses: actions/upload-artifact@v6
         with:
           name: ${{env.ARTIFACT_NAME}}-${{ matrix.chunk }}
-          path: csv/${{env.PROJECT_NAME}}_${{ matrix.chunk }}_keyword.csv
+          path: csv/${{env.PROJECT_NAME}}_${{ matrix.chunk }}_${{env.SHEET_NAME}}_url.csv
           if-no-files-found: error
 
   merge-results:
@@ -71,7 +73,7 @@ jobs:
           merge-multiple: true
 
       - name: Merge and Commit
-        run: python main.py --merge --keyword
+        run: python main.py --merge --url --sheet ${{env.SHEET_NAME}}
 
       - name: Upload Spreadsheet
         uses: actions/upload-artifact@v6

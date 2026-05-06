@@ -1,4 +1,3 @@
-
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.chrome.webdriver import WebDriver
 from utils import delay, find_element_or_none, get_with_backoff
