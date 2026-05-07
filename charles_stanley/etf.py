@@ -32,7 +32,7 @@ def get_page_data(driver: WebDriver, data: list[dict]) -> list[dict]:
                 isin = isin_from_pdf(fact)
             fund.update(dict(isin=isin))
 
-        delay(3, 7)
+        delay(3, 5)
     return data
 
 

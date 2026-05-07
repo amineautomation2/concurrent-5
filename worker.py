@@ -35,11 +35,19 @@ def get_xlsx_data(filename, sheet_name) -> list[dict]:
     for row in range(row_start, ws.max_row + 1):
         if ws.cell(row, 1).value is None:
             continue
-        c1 = ws.cell(row, 1).value
-        c2 = ws.cell(row, 2).value
-        c3 = ws.cell(row, 3).value
-        f = dict(name=c1, isin=c2, url=c3)
-        data.append(f)
+        if sheet_name == "ETF":
+            c1 = ws.cell(row, 1).value
+            c2 = ws.cell(row, 2).value
+            c3 = ws.cell(row, 3).value
+            c4 = ws.cell(row, 4).value
+            f = dict(name=c1, isin=c2, symbol=c3, url=c4)
+            data.append(f)
+        else:
+            c1 = ws.cell(row, 1).value
+            c2 = ws.cell(row, 2).value
+            c3 = ws.cell(row, 3).value
+            f = dict(name=c1, isin=c2, url=c3)
+            data.append(f)
     wb.close()
     return data
 
