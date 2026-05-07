@@ -28,9 +28,9 @@ def get_page_urls(driver: WebDriver, url: str, sheet: str) -> list[dict]:
     table_name = find_elements(wait, table_name_xpath)
     table_url = find_elements(wait, table_url_xpath)
     fund_data_per_page = []
-    fund = dict()
     if table_name and table_url:
         for tr in table_name:
+            fund = dict()
             name = tr.find_element(By.XPATH, "./td").text
             url_elm = table_url[i].find_element(
                 By.XPATH, "./td/div[1]/a").get_attribute("href")
