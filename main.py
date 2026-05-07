@@ -39,13 +39,21 @@ def main():
         return
 
     elif args.merge and args.keyword and args.sheet:
+        if args.sheet == "ETF":
+            fields = ["name", "isin", "symbol", "url", "keyword"]
+        else:
+            fields = ["name", "isin", "url", "keyword"]
         merge_csv_to_xlsx(
-            xlsx, ["name", "isin", "url", "keyword"], args.sheet, f"{args.sheet}_keyword.csv")
+            xlsx, fields, args.sheet, f"{args.sheet}_keyword.csv")
         return
 
     elif args.merge and args.url and args.sheet:
+        if args.sheet == "ETF":
+            fields = ["name", "isin", "symbol", "url"]
+        else:
+            fields = ["name", "isin", "url"]
         merge_csv_to_xlsx(
-            xlsx, ["name", "isin", "url"], args.sheet, f"{args.sheet}_url.csv")
+            xlsx, fields, args.sheet, f"{args.sheet}_url.csv")
         return
 
 
