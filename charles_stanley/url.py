@@ -28,17 +28,22 @@ def get_page_urls(driver: WebDriver, url: str, sheet: str) -> list[dict]:
     table_name = find_elements(wait, table_name_xpath)
     table_url = find_elements(wait, table_url_xpath)
     fund_data_per_page = []
+    fund = dict()
     if table_name and table_url:
         for tr in table_name:
             name = tr.find_element(By.XPATH, "./td").text
             url_elm = table_url[i].find_element(
                 By.XPATH, "./td/div[1]/a").get_attribute("href")
+            if sheet == "ETF":
+                symbol = driver.find_element(
+                    By.XPATH, f'//*[@id="equity-table-scroll"]/tbody/tr[{i+1}]/td[1]')
+                fund.update(dict(symbol=symbol.text))
             fund_url = url_elm
             if fund_url:
                 isin = None
                 if sheet == "MF":
                     isin = get_isin(fund_url)
-                fund = dict(name=name.strip(), url=fund_url, isin=isin)
+                fund.update(dict(name=name.strip(), url=fund_url, isin=isin))
                 fund_data_per_page.append(fund)
             i += 1
 
