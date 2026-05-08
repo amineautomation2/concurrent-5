@@ -1,10 +1,11 @@
+import re
 from collections.abc import Callable
 import os
 import csv
 import sys
 from typing import Any
 import openpyxl
-from utils import save_xlsx
+from utils import clean_spreadsheet, save_xlsx
 
 
 def get_xlsx_data_empty(filename, sheet_name) -> list[dict]:
@@ -96,19 +97,31 @@ def process_data(
     return fn(data)
 
 
+def natural_sort_key(s):
+    # Splits the string into chunks of text and integers
+    return [int(text) if text.isdigit() else text.lower()
+            for text in re.split(r'(\d+)', s)]
+
+
 def merge_csv_to_xlsx(xlsx_out: str, fields: list[str], sheet: str, pattern: str):
     # xlsx_in = os.path.join(os.getcwd(), "spreadsheet", "hl.xlsx")
     combined_data = []
     csv_dir = os.path.join(os.getcwd(), "csv")
+    files = []
     for filename in os.listdir(csv_dir):
         if filename.endswith(pattern):
             file_path = os.path.join(csv_dir, filename)
-            data = read_csv(file_path)
-            if data:
-                combined_data.extend(data)
-    if sheet == "MF":
-        combined_data = sorted(combined_data, key=lambda x: x["name"])
+            files.append(file_path)
+
+    files.sort(key=natural_sort_key)
+    for file_path in files:
+        data = read_csv(file_path)
+        if data:
+            combined_data.extend(data)
+    # if sheet == "MF":
+    #    combined_data = sorted(combined_data, key=lambda x: x["name"])
     # write_csv(output_file, sorted_data, ["index", "name", "isin", "url"])
     # print(combined_data)
+    clean_spreadsheet(xlsx_out, [sheet])
     save_xlsx(xlsx_out, combined_data, fields, sheet)
     print(f"Successfully merged all files into {xlsx_out}")

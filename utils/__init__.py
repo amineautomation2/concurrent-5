@@ -128,9 +128,9 @@ def find_elements(wait: WebDriverWait, selector: str) -> list[WebElement] | None
         return None
 
 
-def clean_spreadsheet(filename: str) -> None:
+def clean_spreadsheet(filename: str, sheets: list[str]) -> None:
     wb = openpyxl.load_workbook(filename)
-    for sheet in wb.sheetnames:
+    for sheet in sheets:
         ws = wb[sheet]
         for row in ws.iter_rows(min_row=2, max_col=ws.max_column, max_row=ws.max_row):
             for cell in row:
