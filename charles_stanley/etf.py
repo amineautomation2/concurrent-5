@@ -51,6 +51,7 @@ def url_etf(id_worker, max_workers):
         delay(3, 5)
     write_csv_by_id(csv_out, worker_data, ["name", "isin", "symbol", "url"])
     driver.quit()
+    return worker_data
 
 
 def etf_keyword_runner(id_worker, max_worker):

@@ -5,7 +5,7 @@ from utils import delay, find_element_or_none, get_with_backoff
 
 def get_keyword(driver: WebDriver, data: list[dict]) -> list[dict]:
     keyword_xpath_p = '//p[contains(., "Invest in this")]'
-    wait = WebDriverWait(driver, timeout=3)
+    wait = WebDriverWait(driver, timeout=5)
     for fund in data:
         url = fund["url"]
         try:
