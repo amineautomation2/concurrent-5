@@ -106,8 +106,9 @@ def merge_csv_to_xlsx(xlsx_out: str, fields: list[str], sheet: str, pattern: str
             data = read_csv(file_path)
             if data:
                 combined_data.extend(data)
-    sorted_data = sorted(combined_data, key=lambda x: x["name"])
+    if sheet == "MF":
+        combined_data = sorted(combined_data, key=lambda x: x["name"])
     # write_csv(output_file, sorted_data, ["index", "name", "isin", "url"])
     # print(combined_data)
-    save_xlsx(xlsx_out, sorted_data, fields, sheet)
+    save_xlsx(xlsx_out, combined_data, fields, sheet)
     print(f"Successfully merged all files into {xlsx_out}")
