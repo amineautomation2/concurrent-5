@@ -1,0 +1,25 @@
+name: Run MF
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "38 10 1 */3 *"
+    - cron: "38 13 3 5 *"
+
+env:
+  IDLE_TIME: 30
+
+jobs:
+  run-mf-urls-workflow:
+    uses: ./.github/workflows/MF_URL.yml
+
+  wait-after-mf-urls:
+    needs: run-mf-urls-workflow
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep ${{ env.IDLE_TIME }}
+
+  run-mf-keyword-workflow:
+   needs: wait-after-mf-urls
+   uses: ./.github/workflows/MF_Keyword.yml
+ 

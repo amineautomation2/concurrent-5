@@ -1,0 +1,25 @@
+name: Run ETF
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "38 10 1 */3 *"
+    - cron: "38 13 3 5 *"
+
+env:
+  IDLE_TIME: 30
+
+jobs:
+  run-etf-urls-workflow:
+    uses: ./.github/workflows/ETF_URL.yml
+
+  wait-after-etf-urls:
+    needs: run-etf-urls-workflow
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep ${{ env.IDLE_TIME }}
+
+  run-etf-keyword-workflow:
+   needs: wait-after-etf-urls
+   uses: ./.github/workflows/ETF_Keyword.yml
