@@ -9,7 +9,7 @@ from selenium.webdriver.chrome.webdriver import WebDriver
 def get_page_data(driver: WebDriver, data: list[dict]) -> list[dict]:
     keyword_xpath_p = '//p[contains(., "Invest in this")]'
     factsheet_xpath = '//a[contains(.,"FACTSHEET")]'
-    wait = WebDriverWait(driver, timeout=10)
+    wait = WebDriverWait(driver, timeout=3)
     for fund in data:
         url = fund["url"]
         try:
@@ -23,7 +23,7 @@ def get_page_data(driver: WebDriver, data: list[dict]) -> list[dict]:
             fund.update(dict(keyword=keyword.text.strip()))
 
         factsheet = find_element_or_none(
-            WebDriverWait(driver, timeout=5), factsheet_xpath)
+            WebDriverWait(driver, timeout=3), factsheet_xpath)
         if factsheet:
             fact = factsheet.get_attribute("href")
             isin = None

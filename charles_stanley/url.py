@@ -23,7 +23,7 @@ def get_page_urls(driver: WebDriver, url: str, sheet: str) -> list[dict]:
     else:
         table_name_xpath = '//*[@id="funds-table-first"]/tbody/tr'
         table_url_xpath = '//*[@id="funds-table-last"]/tbody/tr'
-    wait = WebDriverWait(driver=driver, timeout=5)
+    wait = WebDriverWait(driver=driver, timeout=3)
     i = 0
     table_name = find_elements(wait, table_name_xpath)
     table_url = find_elements(wait, table_url_xpath)
@@ -34,10 +34,6 @@ def get_page_urls(driver: WebDriver, url: str, sheet: str) -> list[dict]:
             name = tr.find_element(By.XPATH, "./td").text
             url_elm = table_url[i].find_element(
                 By.XPATH, "./td/div[1]/a").get_attribute("href")
-            if sheet == "ETF":
-                symbol = driver.find_element(
-                    By.XPATH, f'//*[@id="equity-table-scroll"]/tbody/tr[{i+1}]/td[1]')
-                fund.update(dict(symbol=symbol.text))
             fund_url = url_elm
             if fund_url:
                 isin = None
@@ -46,5 +42,13 @@ def get_page_urls(driver: WebDriver, url: str, sheet: str) -> list[dict]:
                 fund.update(dict(name=name.strip(), url=fund_url, isin=isin))
                 fund_data_per_page.append(fund)
             i += 1
-
+    if sheet == "ETF":
+        symbol_xpath = '//*[@id="equity-table-scroll"]/tbody/tr'
+        table_symbol = find_elements(wait, symbol_xpath)
+        j = 0
+        if table_symbol:
+            for tr in table_symbol:
+                symbol = tr.find_element(By.XPATH, "./td[1]").text
+                fund_data_per_page[j].update(dict(symbol=symbol))
+                j += 1
     return fund_data_per_page

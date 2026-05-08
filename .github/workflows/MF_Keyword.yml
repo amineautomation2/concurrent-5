@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      max-parallel: 2
       matrix:
-        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
-        #chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
+        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] 
     
     steps:
       - name: Checkout Code
@@ -34,7 +34,7 @@ jobs:
         run: rm -rf csv/*_${{env.SHEET_NAME}}_keyword.csv
       
       - name: Scrape URLs Chunk
-        run: python main.py --id ${{ matrix.chunk }} --max 20 --keyword --sheet ${{env.SHEET_NAME}}
+        run: python main.py --id ${{ matrix.chunk }} --max 10 --keyword --sheet ${{env.SHEET_NAME}}
 
       - name: Upload MF Partial Data
         uses: actions/upload-artifact@v6
