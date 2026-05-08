@@ -23,16 +23,15 @@ def get_page_data(driver: WebDriver, data: list[dict]) -> list[dict]:
             fund.update(dict(keyword=keyword.text.strip()))
 
         factsheet = find_element_or_none(
-            WebDriverWait(driver, timeout=3), factsheet_xpath)
+            WebDriverWait(driver, timeout=5), factsheet_xpath)
         if factsheet:
             fact = factsheet.get_attribute("href")
-            print("fact = ", fact)
             isin = None
             if fact:
                 isin = isin_from_pdf(fact)
             fund.update(dict(isin=isin))
 
-        delay(3, 7)
+        delay(4, 7)
     return data
 
 
@@ -49,7 +48,7 @@ def url_etf(id_worker, max_workers):
     for page in pages_per_worker:
         data = get_page_urls(driver, f"{base}&Page={page}", "ETF")
         worker_data.extend(data)
-        delay(2, 3)
+        delay(3, 5)
     write_csv_by_id(csv_out, worker_data, ["name", "isin", "symbol", "url"])
     driver.quit()
 
