@@ -3,6 +3,7 @@ import os
 import time
 from charles_stanley import keyword_runner, url_runner
 from charles_stanley.etf import etf_keyword_runner, get_page_data, url_etf
+from charles_stanley.investment import investment_runner
 from charles_stanley.keyword import get_keyword
 from charles_stanley.url import get_page_urls
 from charles_stanley.total import get_total_funds
@@ -36,6 +37,15 @@ def main():
 
     if args.keyword and args.id and args.max and args.sheet:
         keyword_runner(int(args.id), int(args.max), args.sheet)
+        return
+
+    if args.sheet == "Investment" and args.id and args.max:
+        investment_runner(int(args.id), int(args.max))
+
+    if args.sheet == "Investment" and args.merge:
+        fields = ["name", "isin", "symbol", "url", "keyword"]
+        merge_csv_to_xlsx(
+            xlsx, fields, args.sheet, f"{args.sheet}.csv")
         return
 
     elif args.merge and args.keyword and args.sheet:
