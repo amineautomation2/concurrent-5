@@ -20,6 +20,7 @@ jobs:
       - run: sleep ${{ env.IDLE_TIME }}
 #######
   run-etf-urls-workflow:
+    needs: wait-after-investment
     uses: ./.github/workflows/ETF_URL.yml
 
   wait-after-etf-urls:
@@ -34,7 +35,15 @@ jobs:
    uses: ./.github/workflows/ETF_Keyword.yml
 #######
 
+  wait-after-etf-keyword:
+    needs: run-etf-keyword-workflow
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep ${{ env.IDLE_TIME }}
+
   run-mf-urls-workflow:
+    needs: wait-after-etf-keyword
     uses: ./.github/workflows/MF_URL.yml
 
   wait-after-mf-urls:
@@ -50,6 +59,6 @@ jobs:
  
 ########
   run-email-workflow:
-    needs: wait-after-mf-urls
+    needs: run-mf-keyword-workflow
     uses: ./.github/workflows/Email.yml
     secrets: inherit
