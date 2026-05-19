@@ -12,7 +12,7 @@ jobs:
   run-investment-workflow:
     uses: ./.github/workflows/Investment.yml
 
-  wait-after-investment-urls:
+  wait-after-investment:
     needs: run-investment-workflow
     if: always()
     runs-on: ubuntu-latest
@@ -20,6 +20,7 @@ jobs:
       - run: sleep ${{ env.IDLE_TIME }}
 
   run-etf-workflow:
+    needs: wait-after-investment
     uses: ./.github/workflows/ETF.yml
 
   wait-after-etf:
