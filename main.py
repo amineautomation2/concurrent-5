@@ -43,7 +43,7 @@ def main():
         investment_runner(int(args.id), int(args.max))
 
     if args.sheet == "Investment" and args.merge:
-        fields = ["name", "isin", "symbol", "url", "keyword"]
+        fields = ["name", "isin", "ticker", "url", "keyword"]
         merge_csv_to_xlsx(
             xlsx, fields, args.sheet, f"{args.sheet}.csv")
         return

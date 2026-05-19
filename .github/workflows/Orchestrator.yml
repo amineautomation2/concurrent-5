@@ -9,50 +9,38 @@ env:
   IDLE_TIME: 30
 
 jobs:
-  run-etf-urls-workflow:
-    uses: ./.github/workflows/ETF_URL.yml
+  run-investment-workflow:
+    uses: ./.github/workflows/Investment.yml
 
-  wait-after-etf-urls:
-    needs: run-etf-urls-workflow
+  wait-after-investment-urls:
+    needs: run-investment-workflow
     if: always()
     runs-on: ubuntu-latest
     steps:
       - run: sleep ${{ env.IDLE_TIME }}
 
-  run-mf-urls-workflow:
-    needs: wait-after-etf-urls
-    uses: ./.github/workflows/MF_URL.yml
+  run-etf-workflow:
+    uses: ./.github/workflows/ETF.yml
 
-  wait-after-mf-urls:
-    needs: run-mf-urls-workflow
+  wait-after-etf:
+    needs: run-etf-workflow
     if: always()
     runs-on: ubuntu-latest
     steps:
       - run: sleep ${{ env.IDLE_TIME }}
 
-  run-etf-keyword-workflow:
-   needs: wait-after-mf-urls
-   uses: ./.github/workflows/ETF_Keyword.yml
- 
-  wait-after-etf-keyword:
-    needs: run-etf-keyword-workflow
-    if: always()
-    runs-on: ubuntu-latest
-    steps:
-      - run: sleep ${{ env.IDLE_TIME }}
+  run-mf-workflow:
+    needs: wait-after-etf
+    uses: ./.github/workflows/MF.yml
 
-  run-mf-keyword-workflow:
-   needs: wait-after-etf-keyword
-   uses: ./.github/workflows/MF_Keyword.yml
- 
-  wait-after-mf-keyword:
-    needs: run-mf-keyword-workflow
+  wait-after-mf:
+    needs: run-mf-workflow
     if: always()
     runs-on: ubuntu-latest
     steps:
       - run: sleep ${{ env.IDLE_TIME }}
 
   run-email-workflow:
-    needs: wait-after-mf-keyword
+    needs: wait-after-mf
     uses: ./.github/workflows/Email.yml
     secrets: inherit

@@ -9,6 +9,7 @@ def get_keyword(driver: WebDriver, data: list[dict]) -> list[dict]:
     for fund in data:
         url = fund["url"]
         try:
+            delay(3, 7)
             get_with_backoff(driver, url)
         except Exception as e:
             print(f"error: {e}, {url}")
@@ -16,5 +17,4 @@ def get_keyword(driver: WebDriver, data: list[dict]) -> list[dict]:
         keyword = find_element_or_none(wait, keyword_xpath_p)
         if keyword:
             fund.update(dict(keyword=keyword.text.strip()))
-        delay(3, 7)
     return data
